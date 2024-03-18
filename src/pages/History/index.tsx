@@ -9,8 +9,6 @@ export function History() {
     <HistoryContainer>
       <h1>Meu histórico</h1>
 
-      <pre>{JSON.stringify(cycles, null, 2)}</pre>
-
       <HistoryList>
         <table>
           <thead>
@@ -22,54 +20,32 @@ export function History() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Projeto 1</td>
-              <td>20 minutos</td>
-              <td>Há 2 meses</td>
-              <td>
-                <Status statuscolor="green">Concluído</Status>
-              </td>
-            </tr>
-            <tr>
-              <td>Projeto 2</td>
-              <td>20 minutos</td>
-              <td>Há 2 meses</td>
-              <td>
-                <Status statuscolor="yellow">Em andamento</Status>
-              </td>
-            </tr>
-            <tr>
-              <td>Projeto 3</td>
-              <td>20 minutos</td>
-              <td>Há 2 meses</td>
-              <td>
-                <Status statuscolor="red">Interrompido</Status>
-              </td>
-            </tr>
-            <tr>
-              <td>Projeto 4</td>
-              <td>20 minutos</td>
-              <td>Há 2 meses</td>
-              <td>
-                <Status statuscolor="red">Interrompido</Status>
-              </td>
-            </tr>
-            <tr>
-              <td>Projeto 5</td>
-              <td>20 minutos</td>
-              <td>Há 2 meses</td>
-              <td>
-                <Status statuscolor="green">Concluído</Status>
-              </td>
-            </tr>
-            <tr>
-              <td>Projeto 6</td>
-              <td>20 minutos</td>
-              <td>Há 2 meses</td>
-              <td>
-                <Status statuscolor="green">Concluído</Status>
-              </td>
-            </tr>
+            {cycles.map((cycle) => {
+              return (
+                <tr key={cycle.id}>
+                  <td>{cycle.task}</td>
+                  <td>{cycle.minutesAmount} minutos</td>
+                  <td>
+                    {new Date(cycle.startDate).toLocaleDateString('pt-BR', {
+                      day: '2-digit',
+                      month: 'long',
+                      year: 'numeric',
+                    })}
+                  </td>
+                  <td>
+                    {cycle.finishedDate && (
+                      <Status statuscolor="green">Concluído</Status>
+                    )}
+                    {cycle.interruptedDate && (
+                      <Status statuscolor="red">Interrompido</Status>
+                    )}
+                    {!cycle.finishedDate && !cycle.interruptedDate && (
+                      <Status statuscolor="yellow">Em andamento</Status>
+                    )}
+                  </td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </HistoryList>
